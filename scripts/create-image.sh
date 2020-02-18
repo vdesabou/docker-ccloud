@@ -38,7 +38,7 @@ function retry() {
 
 # download ccloud to get version
 retry curl -L https://cnfl.io/ccloud-cli | sh -s -- -b $PWD
-CCLOUD_VERSION=$(/tmp/ccloud --version | cut -d " " -f 3)
+CCLOUD_VERSION=$($PWD/ccloud --version | cut -d " " -f 3)
 rm -f $PWD/ccloud
 
 retry docker build -t vdesabou/docker-ccloud:$CCLOUD_VERSION .
