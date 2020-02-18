@@ -4,4 +4,4 @@ set -o nounset \
     -o errexit
 
 /etc/confluent/docker/configure
-exec ccloud "$@"
+exec "$@"
