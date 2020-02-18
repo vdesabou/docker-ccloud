@@ -2,7 +2,6 @@ language: bash
 os: linux
 services: docker
 before_install:
-- curl -L https://cnfl.io/ccloud-cli | sudo sh -s -- -b /usr/local/bin
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 script: bash scripts/create-image.sh
 env:

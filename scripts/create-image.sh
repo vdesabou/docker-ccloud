@@ -36,7 +36,8 @@ function retry() {
   done
 }
 
-CCLOUD_VERSION=$(ccloud --version | cut -d " " -f 3)
+retry curl -L https://cnfl.io/ccloud-cli | sh -s -- -b /tmp/
+CCLOUD_VERSION=$(/tmp/ccloud --version | cut -d " " -f 3)
 retry docker build -t vdesabou/docker-ccloud:$CCLOUD_VERSION .
 
 docker push vdesabou/docker-ccloud:$CCLOUD_VERSION
