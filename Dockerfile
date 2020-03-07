@@ -1,10 +1,16 @@
 FROM confluentinc/cp-base
 
+ARG VERSION
 ENV COMPONENT="ccloud"
 
 RUN groupadd -r ccloud && useradd --no-log-init -m -r -g ccloud ccloud
 
-RUN curl -L https://cnfl.io/ccloud-cli | sh -s -- -b /usr/bin
+ARG OS=linux
+ARG ARCH=amd64
+ARG FILE=ccloud_${VERSION}_${OS}_${ARCH}.tar.gz
+RUN curl -s https://s3-us-west-2.amazonaws.com/confluent.cloud/ccloud-cli/archives/${VERSION#v}/${FILE} -o ${FILE}
+RUN tar -xzvf ${FILE}
+RUN mv ccloud/ccloud /usr/bin
 
 COPY include/etc/confluent/docker /etc/confluent/docker
 

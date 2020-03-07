@@ -36,13 +36,47 @@ function retry() {
   done
 }
 
-# download ccloud to get version
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+# download ccloud to get latest version
 retry curl -L https://cnfl.io/ccloud-cli | sh -s -- -b $PWD
-CCLOUD_VERSION=$($PWD/ccloud --version | cut -d " " -f 3)
+latest_version=$($PWD/ccloud --version | cut -d " " -f 3)
 rm -f $PWD/ccloud
 
-retry docker build -t vdesabou/docker-ccloud:$CCLOUD_VERSION .
+for version in $(curl -L https://cnfl.io/ccloud-cli | sh -s -- -l)
+do
+  if [[ "$version" = "latest" ]]
+  then
+      log "Version $version, skipping.."
+      continue
+  fi
 
-docker push vdesabou/docker-ccloud:$CCLOUD_VERSION
-docker tag vdesabou/docker-ccloud:$CCLOUD_VERSION vdesabou/docker-ccloud:latest
-docker push vdesabou/docker-ccloud:latest
+  set +e
+  ${DIR}/docker-image-exists.sh vdesabou/docker-ccloud:$version
+  ret=$?
+  if [ $ret -eq 0 ]
+  then
+    log "Version $version already existing, skipping.."
+  else
+    # add v before version
+    retry docker build --build-arg VERSION=v$version -t vdesabou/docker-ccloud:$version .
+    ret=$?
+    set -e
+    if [ $ret -eq 0 ]
+    then
+      log "Pushing version $version"
+      docker push vdesabou/docker-ccloud:$version
+
+      if [[ "$version" = "$latest_version" ]]
+      then
+        log "Pushing version $version as latest"
+        docker tag vdesabou/docker-ccloud:$version vdesabou/docker-ccloud:latest
+        docker push vdesabou/docker-ccloud:latest
+      fi
+    else
+      logwarn "Failed to build version $version"
+    fi
+  fi
+done
+
+exit 0
