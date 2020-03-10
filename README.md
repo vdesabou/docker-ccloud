@@ -13,7 +13,7 @@ $ docker pull vdesabou/docker-ccloud:latest
 Verify the install
 
 ```bash
-$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS=" -e "CCLOUD_API_KEY=$CLOUD_KEY" -e "CCLOUD_API_SECRET=$CLOUD_SECRET" vdesabou/docker-ccloud:latest ccloud version
+$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS" -e "CCLOUD_API_KEY=$CCLOUD_API_KEY" -e "CCLOUD_API_SECRET=$CCLOUD_API_SECRET" vdesabou/docker-ccloud:latest ccloud version
 
 Version:     v0.239.0
 Git Ref:     5c56da5
@@ -26,7 +26,7 @@ Development: false
 or use a particular version number:
 
 ```bash
-$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS=" -e "CCLOUD_API_KEY=$CLOUD_KEY" -e "CCLOUD_API_SECRET=$CLOUD_SECRET" vdesabou/docker-ccloud:v0.239.0 ccloud version
+$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS" -e "CCLOUD_API_KEY=$CCLOUD_API_KEY" -e "CCLOUD_API_SECRET=$CCLOUD_API_SECRET" vdesabou/docker-ccloud:v0.239.0 ccloud version
 
 Version:     v0.239.0
 Git Ref:     5c56da5
@@ -39,7 +39,7 @@ Development: false
 Then, authenticate by running:
 
 ```bash
-$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS=" -e "CCLOUD_API_KEY=$CLOUD_KEY" -e "CCLOUD_API_SECRET=$CLOUD_SECRET" -v /home/ccloud/ --name ccloud-config vdesabou/docker-ccloud:latest ccloud login
+$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS" -e "CCLOUD_API_KEY=$CCLOUD_API_KEY" -e "CCLOUD_API_SECRET=$CCLOUD_API_SECRET" -v /home/ccloud/ --name ccloud-config vdesabou/docker-ccloud:latest ccloud login
 ```
 
 Once you authenticate successfully, credentials are preserved in the volume of the ccloud-config container.
@@ -49,7 +49,7 @@ To run ccloud commands using these credentials, run the container with `--volume
 Exemple:
 
 ```bash
-$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS=" -e "CCLOUD_API_KEY=$CLOUD_KEY" -e "CCLOUD_API_SECRET=$CLOUD_SECRET" --volumes-from ccloud-config vdesabou/docker-ccloud ccloud kafka cluster list
+$ docker run -ti -e "CCLOUD_BOOTSTRAP_SERVERS=$BOOTSTRAP_SERVERS" -e "CCLOUD_API_KEY=$CCLOUD_API_KEY" -e "CCLOUD_API_SECRET=$CCLOUD_API_SECRET" --volumes-from ccloud-config vdesabou/docker-ccloud ccloud kafka cluster list
 ```
 
 :warning: Warning: The `ccloud-config` container now has a volume containing your Confluent Cloud credentials.
