@@ -59,7 +59,7 @@ do
     log "Version $version already existing, skipping.."
   else
     # add v before version
-    retry docker build --build-arg VERSION=v$version -t vdesabou/docker-ccloud:$version .
+    retry docker build -t vdesabou/docker-ccloud:$version .
     ret=$?
     set -e
     if [ $ret -eq 0 ]
