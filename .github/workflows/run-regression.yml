@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+  schedule:
+     - cron: '0 3 * * *' # every day at 5 am
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Create image
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker login
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u vdesabou --password-stdin
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Create image
+        run: bash scripts/create-image.sh

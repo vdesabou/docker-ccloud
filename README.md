@@ -1,4 +1,4 @@
-# docker-ccloud [![Build Status](https://travis-ci.com/vdesabou/docker-ccloud.svg?branch=master)](https://travis-ci.com/vdesabou/docker-ccloud)
+# docker-ccloud ![CI](https://github.com/vdesabou/docker-ccloud/workflows/CI/badge.svg?branch=master)
 
 Docker image of Confluent's `ccloud` CLI: [docs](https://docs.confluent.io/current/cloud/using/index.html#ccloud-cli)
 
