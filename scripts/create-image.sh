@@ -39,7 +39,7 @@ function retry() {
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # download ccloud to get latest version
-retry curl -L https://cnfl.io/ccloud-cli | sh -s -- -b $PWD
+retry curl --http1.1 -L https://cnfl.io/ccloud-cli | sh -s -- -b $PWD
 latest_version=$($PWD/ccloud --version | cut -d " " -f 3)
 rm -f $PWD/ccloud
 
